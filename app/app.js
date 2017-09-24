@@ -42,7 +42,7 @@ import { translationMessages } from './i18n';
 import './global-styles';
 
 // Import root routes
-import createRoutes from './routes';
+import routes from './routes';
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -59,10 +59,10 @@ const history = syncHistoryWithStore(browserHistory, store, {
 });
 
 // Set up the router, wrapping all Routes in the App component
-const rootRoute = {
-  component: App,
-  childRoutes: createRoutes(store),
-};
+// const rootRoute = {
+//   component: App,
+//   childRoutes: routes(store),
+// };
 
 const render = (messages) => {
   ReactDOM.render(
@@ -70,13 +70,15 @@ const render = (messages) => {
       <LanguageProvider messages={messages}>
         <Router
           history={history}
-          routes={rootRoute}
-          render={
+          //routes={rootRoute}
+          //render={
             // Scroll to top when going to a new page, imitating default browser
             // behaviour
-            applyRouterMiddleware(useScroll())
-          }
-        />
+            // applyRouterMiddleware(useScroll())
+          //}
+        >
+        {routes()}
+        </Router>
       </LanguageProvider>
     </Provider>,
     document.getElementById('app')
