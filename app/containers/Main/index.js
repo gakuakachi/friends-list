@@ -8,9 +8,9 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import makeSelectMain from './selectors';
-import Counter from 'components/Counter';
 import createHistory from 'history/createBrowserHistory';
 import * as Actions from './actions';
+import { selectFriendDomain } from './selectors';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -51,20 +51,31 @@ export class Main extends React.PureComponent { // eslint-disable-line react/pre
       search: `?q=${param}`
     })
     fetchFriendsStart(param)
-    console.log('state' + this.props.isFetching);
   }
 
   handleClick(e) {
     e.preventDefault;
   }
+
+  checkState() {
+    console.log(this.props.friends);
+    console.log(this.props.isFetching);
+    console.log(this.props.error);
+  }
+
   render() {
     let { isFetching, friends, error } = this.props;
-    if(friends) {
-      alert('ok');
-      let items = friends.map((value, key)=> {
-        return <p key={key}>{value.name}<span>{val.username}</span></p>
+    let itemIsPresent = false;
+    let items
+    console.log('this is showing friends' + JSON.stringify
+      (friends) + friends.length + friends);
+    if(friends.length > 0) {
+      itemIsPresent = true;
+      items = friends.map((val, key)=> {
+        return <p key={key}>{val.name}<span>{val.username}</span></p>
       })
     }
+
     return (
       <Wrapper>
         <Container>
@@ -74,8 +85,9 @@ export class Main extends React.PureComponent { // eslint-disable-line react/pre
           <a href="#" onClick={this.handleClick.bind(this)}>test</a>
           { isFetching ? <p>Loading</p>: null}
           { error ? <p>{ error }</p> : null}
-          { friends && <div>{ items }</div>}
+          { itemIsPresent ? items : null}
         </Container>
+          <p onClick={this.checkState.bind(this)}>test</p>
       </Wrapper>
     );
   }
@@ -88,19 +100,18 @@ Main.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { isFetching, friends, error } = state;
-  // const { locale } = state.language;
+  const friendsState = selectFriendDomain(state);
   return {
-    isFetching,
-    friends,
-    error
+    friends: friendsState.friends,
+    isFetching: friendsState.isFetching,
+    error: friendsState.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchFriendsStart: friends => {
-      dispatch(Actions.fetchFriendsStart(friends))
+    fetchFriendsStart: param => {
+      dispatch(Actions.fetchFriendsStart(param))
     }
   }
 }

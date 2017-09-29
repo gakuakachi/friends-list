@@ -18,18 +18,18 @@ function* fetchFriendsSaga(action) {
   }
 }
 
-function* fetchFriendsWatherSaga() {
+function* fetchFriendsWatcherSaga() {
   yield takeEvery(ActionTypes.FRIENDS_FETCH_START, fetchFriendsSaga);
 }
 
 function* rootSaga() {
   yield [
     fork(helloSaga),
-    fork(fetchFriendsWatherSaga)
+    fork(fetchFriendsWatcherSaga)
   ];
 }
 
-export default rootSaga
+export default rootSaga;
 
 // export const fetchFriends = friends => dispatch => {
 //   return fetch(`https://www.reddit.com/r/${friends}.json`)

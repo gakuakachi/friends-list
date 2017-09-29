@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute, hashHistory, browserHistory } from 'react-ro
 import App from './containers/App'
 import Main from './containers/Main'
 import Login from './containers/Login'
+import Todo from './containers/TodoContainer';
 
 const routes = () => (
   <Router history={hashHistory}>
@@ -16,6 +17,7 @@ const routes = () => (
         <IndexRoute component={Main} />
         <Route path="/?:query?"component={Main} />
         <Route path= "/login" component={Login} />
+        <Route path= "/todo" component={Todo} />
       </Route>
     </Route>
   </Router>

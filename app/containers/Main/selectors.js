@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
  */
 const selectMainDomain = () => (state) => state.get('main');
 
+export const selectFriendDomain = state => state.get('friends').toJS();
+
 /**
  * Other specific selectors
  */
